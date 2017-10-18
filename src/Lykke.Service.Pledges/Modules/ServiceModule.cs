@@ -58,6 +58,11 @@ namespace Lykke.Service.Pledges.Modules
                 .As<IClientAccountService>()
                 .WithParameter("baseUri", new Uri(_settings.CurrentValue.Services.ClientAccountServiceUrl));
 
+            builder.RegisterType<ClientAccountClient>()
+                .As<IClientAccountClient>()
+                .WithParameter("serviceUrl", _settings.CurrentValue.Services.ClientAccountServiceUrl)
+                .WithParameter("log", _log);
+
             builder.Populate(_services);
         }
     }
