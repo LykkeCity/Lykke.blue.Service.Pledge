@@ -183,7 +183,7 @@ namespace Lykke.Service.Pledges.Client.AutorestClient
             }
 
             /// <summary>
-            /// Get pledges for provided client.
+            /// Get pledges for provided client
             /// </summary>
             /// <param name='operations'>
             /// The operations group for this extension method.
@@ -197,7 +197,7 @@ namespace Lykke.Service.Pledges.Client.AutorestClient
             }
 
             /// <summary>
-            /// Get pledges for provided client.
+            /// Get pledges for provided client
             /// </summary>
             /// <param name='operations'>
             /// The operations group for this extension method.
