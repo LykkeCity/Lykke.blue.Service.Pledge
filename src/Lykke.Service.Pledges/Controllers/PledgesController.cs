@@ -92,7 +92,7 @@ namespace Lykke.Service.Pledges.Controllers
         }
 
         /// <summary>
-        /// Get pledges for provided client 
+        /// Get pledges for provided client. 
         /// </summary>
         /// <param name="id">Id of the client we wanna get pledges for.</param>
         /// <returns></returns>
