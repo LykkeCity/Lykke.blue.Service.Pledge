@@ -133,7 +133,7 @@ namespace Lykke.Service.Pledges.Controllers
                 return BadRequest();
             }
 
-            if (String.IsNullOrEmpty(id) || await _clientAccountClient.GetClientById(id) == null)
+            if (String.IsNullOrEmpty(id) || await _clientAccountClient.GetClientById(request.ClientId) == null)
             {
                 return NotFound();
             }
