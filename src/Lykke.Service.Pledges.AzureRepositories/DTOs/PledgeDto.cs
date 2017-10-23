@@ -1,17 +1,18 @@
-﻿using System;
+﻿using Lykke.Service.Pledges.Core.Domain;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace Lykke.Service.Pledges.Models.Pledge
+namespace Lykke.Service.Pledges.AzureRepositories.DTOs
 {
-    public class CreatePledgeRequest
+    public class PledgeDto : IPledge
     {
-        [Required]
+        public string Id { get; set; }
+
         public string ClientId { get; set; }
-        [Required]
+
         public int CO2Footprint { get; set; }
-        [Required]
+
         public int ClimatePositiveValue { get; set; }
     }
 }

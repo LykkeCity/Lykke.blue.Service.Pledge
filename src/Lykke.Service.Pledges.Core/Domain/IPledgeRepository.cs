@@ -7,7 +7,7 @@ namespace Lykke.Service.Pledges.Core.Domain
 {
     public interface IPledgeRepository
     {
-        Task<IPledge> Create(string clientId, int co2Footprint, int value);
+        Task<IPledge> Create(IPledge pledge);
         Task<IPledge> Get(string id);
         Task<IEnumerable<IPledge>> GetPledgesByClientId(string clientId);
         Task<IPledge> UpdatePledge(IPledge pledge);

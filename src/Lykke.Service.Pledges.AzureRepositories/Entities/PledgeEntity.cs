@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Lykke.Service.Pledges.AzureRepositories.Entities
 {
-    public class PledgeEntity : TableEntity, IPledge
+    public class PledgeEntity : TableEntity
     {
         #region Properties
 
@@ -32,28 +32,6 @@ namespace Lykke.Service.Pledges.AzureRepositories.Entities
         public static string GenerateRowKey(string id)
         {
             return id;
-        }
-
-        public static PledgeEntity CreateNew(string clientId, int co2Footprint, int pledgeValue)
-        {
-            var result = new PledgeEntity
-            {
-                ClientId = clientId,
-                CO2Footprint = co2Footprint,
-                PartitionKey = GeneratePartitionKey(),
-                RowKey = Guid.NewGuid().ToString(),
-                ClimatePositiveValue = pledgeValue
-            };
-
-            return result;
-        }
-
-        public static PledgeEntity Update(IPledge from, IPledge to)
-        {
-            from.ClimatePositiveValue = to.ClimatePositiveValue;
-            from.CO2Footprint = to.CO2Footprint;
-
-            return CreateNew(from.ClientId, from.CO2Footprint, from.ClimatePositiveValue);
         }
 
         #endregion

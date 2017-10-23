@@ -16,6 +16,9 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using AutoMapper;
+using Lykke.Service.Pledges.AzureRepositories;
+using Lykke.Service.Pledges.Services;
 
 namespace Lykke.Service.Pledges
 {
@@ -28,6 +31,15 @@ namespace Lykke.Service.Pledges
 
         public Startup(IHostingEnvironment env)
         {
+            Mapper.Initialize(cfg =>
+            {
+                cfg.AddProfiles(typeof(AutoMapperProfile));
+                cfg.AddProfiles(typeof(AzureRepositories.AutoMapperProfile));
+                cfg.AddProfiles(typeof(Services.AutoMapperProfile));
+            });
+
+            Mapper.AssertConfigurationIsValid();
+
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddEnvironmentVariables();

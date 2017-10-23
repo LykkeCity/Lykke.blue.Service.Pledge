@@ -63,6 +63,10 @@ namespace Lykke.Service.Pledges.Modules
                 .WithParameter("serviceUrl", _settings.CurrentValue.Services.ClientAccountServiceUrl)
                 .WithParameter("log", _log);
 
+            builder.RegisterType<PledgesService>()
+                .As<IPledgesService>()
+                .SingleInstance();
+
             builder.Populate(_services);
         }
     }

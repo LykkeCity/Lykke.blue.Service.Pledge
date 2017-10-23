@@ -1,36 +1,37 @@
-﻿using Common.Log;
+﻿using AutoMapper;
+using Common.Log;
 using JetBrains.Annotations;
 using Lykke.Service.ClientAccount.Client;
 using Lykke.Service.Pledges.Core.Domain;
 using Lykke.Service.Pledges.Core.Services;
-using Lykke.Service.Pledges.Models.Pledge;
+using Lykke.Service.Pledges.Requests;
+using Lykke.Service.Pledges.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.SwaggerGen.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Lykke.Service.Pledges.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/pledges")]
     public class PledgesController : Controller
     {
-        private readonly IPledgeRepository _pledgeRepository;
         private readonly ILog _log;
         private readonly IClientAccountClient _clientAccountClient;
         private readonly IShutdownManager _shutdownManager;
+        private readonly IPledgesService _pledgesService;
 
         public PledgesController(
-            [NotNull] IPledgeRepository pledgeRepository, 
             ILog log, 
-            IClientAccountClient clientAccountClient)
+            IClientAccountClient clientAccountClient,
+            IPledgesService pledgesService)
         {
             _log = log ?? throw new ArgumentException(nameof(log));
-            _pledgeRepository = pledgeRepository ?? throw new ArgumentException(nameof(pledgeRepository));
             _clientAccountClient = clientAccountClient ?? throw new ArgumentException(nameof(clientAccountClient));
+            _pledgesService = pledgesService ?? throw new ArgumentException(nameof(pledgesService));
         }
 
         /// <summary>
@@ -42,7 +43,7 @@ namespace Lykke.Service.Pledges.Controllers
         [SwaggerOperation("CreatePledge")]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(CreatePledgeResponse), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(CreatePledgeResponse), (int)HttpStatusCode.Created)]
         public async Task<IActionResult> Create([FromBody] CreatePledgeRequest request)
         {
             if(request == null)
@@ -55,11 +56,9 @@ namespace Lykke.Service.Pledges.Controllers
                 return NotFound();
             }
 
-            var pledge = await _pledgeRepository.Create(request.ClientId, request.CO2Footprint, request.ClimatePositiveValue);
+            var pledge = Mapper.Map<CreatePledgeRequest>(await _pledgesService.Create(request));
 
-            var result = CreatePledgeResponse.Create(pledge);
-
-            return Ok(result);
+            return Created(uri: $"api/pledges/{pledge.Id}", value: pledge);
         }
 
         /// <summary>
@@ -79,14 +78,14 @@ namespace Lykke.Service.Pledges.Controllers
                 return BadRequest();
             }
 
-            var pledge = await _pledgeRepository.Get(id);
+            var pledge = await _pledgesService.Get(id);
 
             if(pledge == null)
             {
                 return NotFound();
             }
 
-            var result = GetPledgeResponse.Create(pledge);
+            var result = Mapper.Map<GetPledgeResponse>(pledge);
 
             return Ok(result);
         }
@@ -108,9 +107,9 @@ namespace Lykke.Service.Pledges.Controllers
                 return BadRequest();
             }
 
-            var pledges = await _pledgeRepository.GetPledgesByClientId(id);
+            var pledges = await _pledgesService.GetPledgesByClientId(id);
 
-            var result = pledges.Select(x => GetPledgeResponse.Create(x));
+            var result = Mapper.Map<IEnumerable<GetPledgeResponse>>(pledges);
 
             return Ok(result);
         }
@@ -121,26 +120,26 @@ namespace Lykke.Service.Pledges.Controllers
         /// <param name="id">Id of the pledge we wanna update.</param>
         /// <param name="request">Pledge values we wanna change.</param>
         /// <returns></returns>
-        [HttpPut("{id}")]
+        [HttpPut]
         [SwaggerOperation("UpdatePledge")]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(UpdatePledgeResponse), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> Update(string id, [FromBody] UpdatePledgeRequest request)
+        public async Task<IActionResult> Update([FromBody] UpdatePledgeRequest request)
         {
             if (request == null)
             {
                 return BadRequest();
             }
 
-            if (String.IsNullOrEmpty(id) || await _clientAccountClient.GetClientById(request.ClientId) == null)
+            if (String.IsNullOrEmpty(request.Id) || await _clientAccountClient.GetClientById(request.ClientId) == null)
             {
                 return NotFound();
             }
 
-            var pledge = await _pledgeRepository.UpdatePledge(request.Create(id));
+            var pledge = await _pledgesService.Update(Mapper.Map<IPledge>(request));
 
-            var result = UpdatePledgeResponse.Create(pledge);
+            var result = Mapper.Map<UpdatePledgeResponse>(pledge);
 
             return Ok(result);
         }
@@ -154,7 +153,7 @@ namespace Lykke.Service.Pledges.Controllers
         [SwaggerOperation("DeletePledge")]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(void), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(void), (int)HttpStatusCode.NoContent)]
         public async Task<IActionResult> Delete(string id)
         {
             if(String.IsNullOrEmpty(id))
@@ -162,16 +161,16 @@ namespace Lykke.Service.Pledges.Controllers
                 return BadRequest();
             }
 
-            var pledge = await _pledgeRepository.Get(id);
+            var pledge = await _pledgesService.Get(id);
 
             if (pledge == null)
             {
                 return NotFound();
             }
 
-            await _pledgeRepository.Delete(id);
+            await _pledgesService.Delete(id);
 
-            return Ok();
+            return NoContent();
         }
     }
 }
