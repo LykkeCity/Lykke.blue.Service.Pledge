@@ -56,7 +56,7 @@ namespace Lykke.Service.Pledges.Controllers
                 return NotFound();
             }
 
-            var pledge = Mapper.Map<CreatePledgeRequest>(await _pledgesService.Create(request));
+            var pledge = Mapper.Map<CreatePledgeResponse>(await _pledgesService.Create(request));
 
             return Created(uri: $"api/pledges/{pledge.Id}", value: pledge);
         }

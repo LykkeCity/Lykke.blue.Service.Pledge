@@ -14,6 +14,7 @@ namespace Lykke.Service.Pledges
         public AutoMapperProfile()
         {
             CreateMap<IPledge, CreatePledgeRequest>();
+            CreateMap<IPledge, CreatePledgeResponse>();
             CreateMap<IPledge, GetPledgeResponse>();
             CreateMap<IPledge, UpdatePledgeRequest>();
             CreateMap<IPledge, UpdatePledgeResponse>();

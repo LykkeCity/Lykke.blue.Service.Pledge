@@ -5,7 +5,7 @@ namespace Lykke.Service.Pledges.Requests
 {
     public class CreatePledgeRequest : IPledge
     {
-        //[Required]
+        [Required]
         public string Id { get; set; }
         [Required]
         public string ClientId { get; set; }
