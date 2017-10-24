@@ -46,6 +46,20 @@ namespace Lykke.Service.Pledges.Client.AutorestClient
         Task<HttpOperationResponse<object>> IsAliveWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
+        /// Update pledge details.
+        /// </summary>
+        /// <param name='request'>
+        /// Pledge values we wanna change.
+        /// </param>
+        /// <param name='customHeaders'>
+        /// The headers that will be added to request.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        Task<HttpOperationResponse<UpdatePledgeResponse>> UpdatePledgeWithHttpMessagesAsync(UpdatePledgeRequest request = default(UpdatePledgeRequest), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
         /// Create a new pledge.
         /// </summary>
         /// <param name='request'>
@@ -73,23 +87,6 @@ namespace Lykke.Service.Pledges.Client.AutorestClient
         Task<HttpOperationResponse<GetPledgeResponse>> GetPledgeWithHttpMessagesAsync(string id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
-        /// Update pledge details.
-        /// </summary>
-        /// <param name='id'>
-        /// Id of the pledge we wanna update.
-        /// </param>
-        /// <param name='request'>
-        /// Pledge values we wanna change.
-        /// </param>
-        /// <param name='customHeaders'>
-        /// The headers that will be added to request.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// The cancellation token.
-        /// </param>
-        Task<HttpOperationResponse<UpdatePledgeResponse>> UpdatePledgeWithHttpMessagesAsync(string id, UpdatePledgeRequest request = default(UpdatePledgeRequest), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
-
-        /// <summary>
         /// Delete pledge
         /// </summary>
         /// <param name='id'>
@@ -104,7 +101,7 @@ namespace Lykke.Service.Pledges.Client.AutorestClient
         Task<HttpOperationResponse> DeletePledgeWithHttpMessagesAsync(string id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
-        /// Get pledges for provided client
+        /// Get pledges for provided client.
         /// </summary>
         /// <param name='id'>
         /// Id of the client we wanna get pledges for.

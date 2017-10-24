@@ -46,6 +46,40 @@ namespace Lykke.Service.Pledges.Client.AutorestClient
             }
 
             /// <summary>
+            /// Update pledge details.
+            /// </summary>
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='request'>
+            /// Pledge values we wanna change.
+            /// </param>
+            public static UpdatePledgeResponse UpdatePledge(this IPledgesAPI operations, UpdatePledgeRequest request = default(UpdatePledgeRequest))
+            {
+                return operations.UpdatePledgeAsync(request).GetAwaiter().GetResult();
+            }
+
+            /// <summary>
+            /// Update pledge details.
+            /// </summary>
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='request'>
+            /// Pledge values we wanna change.
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task<UpdatePledgeResponse> UpdatePledgeAsync(this IPledgesAPI operations, UpdatePledgeRequest request = default(UpdatePledgeRequest), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                using (var _result = await operations.UpdatePledgeWithHttpMessagesAsync(request, null, cancellationToken).ConfigureAwait(false))
+                {
+                    return _result.Body;
+                }
+            }
+
+            /// <summary>
             /// Create a new pledge.
             /// </summary>
             /// <param name='operations'>
@@ -112,46 +146,6 @@ namespace Lykke.Service.Pledges.Client.AutorestClient
             }
 
             /// <summary>
-            /// Update pledge details.
-            /// </summary>
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='id'>
-            /// Id of the pledge we wanna update.
-            /// </param>
-            /// <param name='request'>
-            /// Pledge values we wanna change.
-            /// </param>
-            public static UpdatePledgeResponse UpdatePledge(this IPledgesAPI operations, string id, UpdatePledgeRequest request = default(UpdatePledgeRequest))
-            {
-                return operations.UpdatePledgeAsync(id, request).GetAwaiter().GetResult();
-            }
-
-            /// <summary>
-            /// Update pledge details.
-            /// </summary>
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='id'>
-            /// Id of the pledge we wanna update.
-            /// </param>
-            /// <param name='request'>
-            /// Pledge values we wanna change.
-            /// </param>
-            /// <param name='cancellationToken'>
-            /// The cancellation token.
-            /// </param>
-            public static async Task<UpdatePledgeResponse> UpdatePledgeAsync(this IPledgesAPI operations, string id, UpdatePledgeRequest request = default(UpdatePledgeRequest), CancellationToken cancellationToken = default(CancellationToken))
-            {
-                using (var _result = await operations.UpdatePledgeWithHttpMessagesAsync(id, request, null, cancellationToken).ConfigureAwait(false))
-                {
-                    return _result.Body;
-                }
-            }
-
-            /// <summary>
             /// Delete pledge
             /// </summary>
             /// <param name='operations'>
@@ -183,7 +177,7 @@ namespace Lykke.Service.Pledges.Client.AutorestClient
             }
 
             /// <summary>
-            /// Get pledges for provided client
+            /// Get pledges for provided client.
             /// </summary>
             /// <param name='operations'>
             /// The operations group for this extension method.
@@ -197,7 +191,7 @@ namespace Lykke.Service.Pledges.Client.AutorestClient
             }
 
             /// <summary>
-            /// Get pledges for provided client
+            /// Get pledges for provided client.
             /// </summary>
             /// <param name='operations'>
             /// The operations group for this extension method.

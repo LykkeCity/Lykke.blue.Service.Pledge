@@ -22,9 +22,10 @@ namespace Lykke.Service.Pledges.Client.AutorestClient.Models
         /// <summary>
         /// Initializes a new instance of the UpdatePledgeResponse class.
         /// </summary>
-        public UpdatePledgeResponse(int cO2Footprint, int climatePositiveValue, string id = default(string))
+        public UpdatePledgeResponse(int cO2Footprint, int climatePositiveValue, string id = default(string), string clientId = default(string))
         {
             Id = id;
+            ClientId = clientId;
             CO2Footprint = cO2Footprint;
             ClimatePositiveValue = climatePositiveValue;
             CustomInit();
@@ -39,6 +40,11 @@ namespace Lykke.Service.Pledges.Client.AutorestClient.Models
         /// </summary>
         [JsonProperty(PropertyName = "Id")]
         public string Id { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "ClientId")]
+        public string ClientId { get; set; }
 
         /// <summary>
         /// </summary>
