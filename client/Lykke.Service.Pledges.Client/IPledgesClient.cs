@@ -11,7 +11,7 @@ namespace Lykke.Service.Pledges.Client
         Task<CreatePledgeResponse> Create(CreatePledgeRequest request);
         Task<GetPledgeResponse> Get(string id);
         Task<IEnumerable<GetPledgeResponse>> GetPledgesByClientId(string id);
-        Task<UpdatePledgeResponse> Update(string id, UpdatePledgeRequest request);
+        Task<UpdatePledgeResponse> Update(UpdatePledgeRequest request);
         Task Delete(string id);
     }
 }

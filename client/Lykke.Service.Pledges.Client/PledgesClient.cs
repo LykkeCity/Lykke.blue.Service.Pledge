@@ -78,11 +78,11 @@ namespace Lykke.Service.Pledges.Client
             }
         }
 
-        public async Task<UpdatePledgeResponse> Update(string id, UpdatePledgeRequest request)
+        public async Task<UpdatePledgeResponse> Update(UpdatePledgeRequest request)
         {
             try
             {
-                return await _service.UpdatePledgeAsync(id, request);
+                return await _service.UpdatePledgeAsync(request);
             }
             catch (Exception ex)
             {
