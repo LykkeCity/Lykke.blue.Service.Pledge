@@ -101,10 +101,10 @@ namespace Lykke.Service.Pledges.Client.AutorestClient
         Task<HttpOperationResponse> DeletePledgeWithHttpMessagesAsync(string id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
-        /// Get pledges for provided client.
+        /// Get pledge for provided client.
         /// </summary>
         /// <param name='id'>
-        /// Id of the client we wanna get pledges for.
+        /// Id of the client we wanna get pledge for.
         /// </param>
         /// <param name='customHeaders'>
         /// The headers that will be added to request.
@@ -112,7 +112,7 @@ namespace Lykke.Service.Pledges.Client.AutorestClient
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<IList<GetPledgeResponse>>> GetPledgesByClientIdWithHttpMessagesAsync(string id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<GetPledgeResponse>> GetPledgeByClientIdWithHttpMessagesAsync(string id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
     }
 }

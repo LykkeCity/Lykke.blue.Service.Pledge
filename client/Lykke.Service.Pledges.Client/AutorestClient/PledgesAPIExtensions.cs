@@ -7,8 +7,6 @@
 namespace Lykke.Service.Pledges.Client.AutorestClient
 {
     using Models;
-    using System.Collections;
-    using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -177,34 +175,34 @@ namespace Lykke.Service.Pledges.Client.AutorestClient
             }
 
             /// <summary>
-            /// Get pledges for provided client.
+            /// Get pledge for provided client.
             /// </summary>
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
             /// <param name='id'>
-            /// Id of the client we wanna get pledges for.
+            /// Id of the client we wanna get pledge for.
             /// </param>
-            public static IList<GetPledgeResponse> GetPledgesByClientId(this IPledgesAPI operations, string id)
+            public static GetPledgeResponse GetPledgeByClientId(this IPledgesAPI operations, string id)
             {
-                return operations.GetPledgesByClientIdAsync(id).GetAwaiter().GetResult();
+                return operations.GetPledgeByClientIdAsync(id).GetAwaiter().GetResult();
             }
 
             /// <summary>
-            /// Get pledges for provided client.
+            /// Get pledge for provided client.
             /// </summary>
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
             /// <param name='id'>
-            /// Id of the client we wanna get pledges for.
+            /// Id of the client we wanna get pledge for.
             /// </param>
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<IList<GetPledgeResponse>> GetPledgesByClientIdAsync(this IPledgesAPI operations, string id, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<GetPledgeResponse> GetPledgeByClientIdAsync(this IPledgesAPI operations, string id, CancellationToken cancellationToken = default(CancellationToken))
             {
-                using (var _result = await operations.GetPledgesByClientIdWithHttpMessagesAsync(id, null, cancellationToken).ConfigureAwait(false))
+                using (var _result = await operations.GetPledgeByClientIdWithHttpMessagesAsync(id, null, cancellationToken).ConfigureAwait(false))
                 {
                     return _result.Body;
                 }

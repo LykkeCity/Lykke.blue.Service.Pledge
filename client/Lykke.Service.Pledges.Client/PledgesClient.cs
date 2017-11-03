@@ -65,15 +65,15 @@ namespace Lykke.Service.Pledges.Client
             }
         }
 
-        public async Task<IEnumerable<GetPledgeResponse>> GetPledgesByClientId(string id)
+        public async Task<GetPledgeResponse> GetPledgeByClientId(string id)
         {
             try
             {
-                return await _service.GetPledgesByClientIdAsync(id);
+                return await _service.GetPledgeByClientIdAsync(id);
             }
             catch (Exception ex)
             {
-                await _log.WriteErrorAsync(nameof(PledgesClient), nameof(GetPledgesByClientId), ex);
+                await _log.WriteErrorAsync(nameof(PledgesClient), nameof(GetPledgeByClientId), ex);
                 throw;
             }
         }

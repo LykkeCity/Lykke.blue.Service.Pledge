@@ -10,7 +10,7 @@ namespace Lykke.Service.Pledges.Client
     {
         Task<CreatePledgeResponse> Create(CreatePledgeRequest request);
         Task<GetPledgeResponse> Get(string id);
-        Task<IEnumerable<GetPledgeResponse>> GetPledgesByClientId(string id);
+        Task<GetPledgeResponse> GetPledgeByClientId(string id);
         Task<UpdatePledgeResponse> Update(UpdatePledgeRequest request);
         Task Delete(string id);
     }

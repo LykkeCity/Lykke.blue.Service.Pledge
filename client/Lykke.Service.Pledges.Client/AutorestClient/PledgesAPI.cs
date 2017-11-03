@@ -495,7 +495,7 @@ namespace Lykke.Service.Pledges.Client.AutorestClient
             HttpStatusCode _statusCode = _httpResponse.StatusCode;
             cancellationToken.ThrowIfCancellationRequested();
             string _responseContent = null;
-            if ((int)_statusCode != 400 && (int)_statusCode != 404 && (int)_statusCode != 201)
+            if ((int)_statusCode != 400 && (int)_statusCode != 201)
             {
                 var ex = new HttpOperationException(string.Format("Operation returned an invalid status code '{0}'", _statusCode));
                 if (_httpResponse.Content != null) {
@@ -796,10 +796,10 @@ namespace Lykke.Service.Pledges.Client.AutorestClient
         }
 
         /// <summary>
-        /// Get pledges for provided client.
+        /// Get pledge for provided client.
         /// </summary>
         /// <param name='id'>
-        /// Id of the client we wanna get pledges for.
+        /// Id of the client we wanna get pledge for.
         /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
@@ -822,7 +822,7 @@ namespace Lykke.Service.Pledges.Client.AutorestClient
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse<IList<GetPledgeResponse>>> GetPledgesByClientIdWithHttpMessagesAsync(string id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<GetPledgeResponse>> GetPledgeByClientIdWithHttpMessagesAsync(string id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (id == null)
             {
@@ -837,7 +837,7 @@ namespace Lykke.Service.Pledges.Client.AutorestClient
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
                 tracingParameters.Add("id", id);
                 tracingParameters.Add("cancellationToken", cancellationToken);
-                ServiceClientTracing.Enter(_invocationId, this, "GetPledgesByClientId", tracingParameters);
+                ServiceClientTracing.Enter(_invocationId, this, "GetPledgeByClientId", tracingParameters);
             }
             // Construct URL
             var _baseUrl = BaseUri.AbsoluteUri;
@@ -902,7 +902,7 @@ namespace Lykke.Service.Pledges.Client.AutorestClient
                 throw ex;
             }
             // Create Result
-            var _result = new HttpOperationResponse<IList<GetPledgeResponse>>();
+            var _result = new HttpOperationResponse<GetPledgeResponse>();
             _result.Request = _httpRequest;
             _result.Response = _httpResponse;
             // Deserialize Response
@@ -911,7 +911,7 @@ namespace Lykke.Service.Pledges.Client.AutorestClient
                 _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
                 try
                 {
-                    _result.Body = SafeJsonConvert.DeserializeObject<IList<GetPledgeResponse>>(_responseContent, DeserializationSettings);
+                    _result.Body = SafeJsonConvert.DeserializeObject<GetPledgeResponse>(_responseContent, DeserializationSettings);
                 }
                 catch (JsonException ex)
                 {
