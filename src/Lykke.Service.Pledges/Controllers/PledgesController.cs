@@ -6,6 +6,7 @@ using Lykke.Service.Pledges.Core.Domain;
 using Lykke.Service.Pledges.Core.Services;
 using Lykke.Service.Pledges.Requests;
 using Lykke.Service.Pledges.Responses;
+using Lykke.Service.Pledges.Strings;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.SwaggerGen.Annotations;
 using System;
@@ -42,18 +43,17 @@ namespace Lykke.Service.Pledges.Controllers
         [HttpPost]
         [SwaggerOperation("CreatePledge")]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(CreatePledgeResponse), (int)HttpStatusCode.Created)]
         public async Task<IActionResult> Create([FromBody] CreatePledgeRequest request)
         {
             if(request == null)
             {
-                return BadRequest();
+                return BadRequest(Phrases.InvalidRequest);
             }
 
             if(String.IsNullOrEmpty(request.ClientId) || await _clientAccountClient.GetClientById(request.ClientId) == null)
             {
-                return NotFound();
+                return BadRequest(Phrases.InvalidClientId);
             }
 
             var pledge = Mapper.Map<CreatePledgeResponse>(await _pledgesService.Create(request));
@@ -69,20 +69,19 @@ namespace Lykke.Service.Pledges.Controllers
         [HttpGet("{id}")]
         [SwaggerOperation("GetPledge")]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(GetPledgeResponse), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Get(string id)
         {
             if(String.IsNullOrEmpty(id))
             {
-                return BadRequest();
+                return BadRequest(Phrases.InvalidRequest);
             }
 
             var pledge = await _pledgesService.Get(id);
 
             if(pledge == null)
             {
-                return NotFound();
+                return BadRequest(Phrases.InvalidPledgeId);
             }
 
             var result = Mapper.Map<GetPledgeResponse>(pledge);
@@ -98,13 +97,12 @@ namespace Lykke.Service.Pledges.Controllers
         [HttpGet("client/{id}")]
         [SwaggerOperation("GetPledgesByClientId")]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(IEnumerable<GetPledgeResponse>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetPledgesByClientId(string id)
         {
             if(String.IsNullOrEmpty(id))
             {
-                return BadRequest();
+                return BadRequest(Phrases.InvalidRequest);
             }
 
             var pledges = await _pledgesService.GetPledgesByClientId(id);
@@ -123,18 +121,17 @@ namespace Lykke.Service.Pledges.Controllers
         [HttpPut]
         [SwaggerOperation("UpdatePledge")]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(UpdatePledgeResponse), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Update([FromBody] UpdatePledgeRequest request)
         {
             if (request == null)
             {
-                return BadRequest();
+                return BadRequest(Phrases.InvalidRequest);
             }
 
             if (String.IsNullOrEmpty(request.Id) || await _clientAccountClient.GetClientById(request.ClientId) == null)
             {
-                return NotFound();
+                return BadRequest(Phrases.InvalidClientId);
             }
 
             var pledge = await _pledgesService.Update(Mapper.Map<IPledge>(request));
@@ -152,20 +149,19 @@ namespace Lykke.Service.Pledges.Controllers
         [HttpDelete("{id}")]
         [SwaggerOperation("DeletePledge")]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.NoContent)]
         public async Task<IActionResult> Delete(string id)
         {
             if(String.IsNullOrEmpty(id))
             {
-                return BadRequest();
+                return BadRequest(Phrases.InvalidRequest);
             }
 
             var pledge = await _pledgesService.Get(id);
 
             if (pledge == null)
             {
-                return NotFound();
+                return BadRequest(Phrases.InvalidPledgeId);
             }
 
             await _pledgesService.Delete(id);
