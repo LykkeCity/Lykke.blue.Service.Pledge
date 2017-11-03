@@ -36,11 +36,6 @@ namespace Lykke.Service.Pledges.Services
             return await _pledgeRepository.GetPledgeByClientId(clientId);
         }
 
-        public async Task<IPledgeStatistics> GetPledgeStatistics(string id)
-        {
-            return await _pledgeRepository.GetPledgeStatistics(id);
-        }
-
         public async Task<bool> IsPledgesLimitReached(string clientId)
         {
             return await _pledgeRepository.IsPledgesLimitReached(clientId);

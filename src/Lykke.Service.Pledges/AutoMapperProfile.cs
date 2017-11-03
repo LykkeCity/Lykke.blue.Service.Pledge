@@ -18,7 +18,6 @@ namespace Lykke.Service.Pledges
             CreateMap<IPledge, GetPledgeResponse>();
             CreateMap<IPledge, UpdatePledgeRequest>();
             CreateMap<IPledge, UpdatePledgeResponse>();
-            CreateMap<IPledgeStatistics, GetPledgeStatisticsResponse>();
         }
     }
 }

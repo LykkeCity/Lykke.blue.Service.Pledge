@@ -191,34 +191,5 @@ namespace Lykke.Service.Pledges.Controllers
 
             return NoContent();
         }
-
-        /// <summary>
-        /// Get pledge statistics.
-        /// </summary>
-        /// <param name="id">Id of the pledge we wanna get statistics for.</param>
-        /// <returns></returns>
-        [HttpGet("statistics/{id}")]
-        [SwaggerOperation("GetPledgeStatistics")]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(GetPledgeStatisticsResponse), (int)HttpStatusCode.NoContent)]
-        public async Task<IActionResult> GetPledgeStatistics(string id)
-        {
-            if (String.IsNullOrEmpty(id))
-            {
-                return BadRequest(Phrases.InvalidRequest);
-            }
-
-            var pledge = await _pledgesService.Get(id);
-
-            if (pledge == null)
-            {
-                return NotFound(Phrases.PledgeNotFound);
-            }
-
-            var pledgeStatistics = Mapper.Map<GetPledgeStatisticsResponse>(await _pledgesService.GetPledgeStatistics(id));
-
-            return Ok(pledgeStatistics);
-        }
     }
 }
