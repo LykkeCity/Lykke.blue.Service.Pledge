@@ -13,5 +13,6 @@ namespace Lykke.Service.Pledges.Core.Domain
         Task<IPledge> UpdatePledge(IPledge pledge);
         Task Delete(string id);
         Task<bool> IsPledgesLimitReached(string clientId);
+        Task<IPledgeStatistics> GetPledgeStatistics(string id);
     }
 }

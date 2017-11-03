@@ -61,6 +61,17 @@ namespace Lykke.Service.Pledges.AzureRepositories.Repositories
             return Mapper.Map<PledgeDto>(entities);
         }
 
+        public async Task<IPledgeStatistics> GetPledgeStatistics(string id)
+        {
+            var entity = await _pledgeTable.GetDataAsync(GetPartitionKey(), GetRowKey(id));
+
+            return new PledgeStatisticsDto
+            {
+                CommitmentGiven = 0,
+                CurrentProgress = 0
+            };
+        }
+
         public async Task<bool> IsPledgesLimitReached(string clientId)
         {
             var numberOfClientPledges = (await _pledgeTable.GetDataAsync(GetPartitionKey(), x => x.ClientId == clientId)).Count();

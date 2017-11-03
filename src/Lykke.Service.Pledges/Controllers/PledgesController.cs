@@ -76,6 +76,7 @@ namespace Lykke.Service.Pledges.Controllers
         [HttpGet("{id}")]
         [SwaggerOperation("GetPledge")]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(GetPledgeResponse), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Get(string id)
         {
@@ -104,6 +105,7 @@ namespace Lykke.Service.Pledges.Controllers
         [HttpGet("client/{id}")]
         [SwaggerOperation("GetPledgeByClientId")]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(GetPledgeResponse), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetPledgeByClientId(string id)
         {
@@ -133,6 +135,7 @@ namespace Lykke.Service.Pledges.Controllers
         [HttpPut]
         [SwaggerOperation("UpdatePledge")]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(UpdatePledgeResponse), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Update([FromBody] UpdatePledgeRequest request)
         {
@@ -168,6 +171,7 @@ namespace Lykke.Service.Pledges.Controllers
         [HttpDelete("{id}")]
         [SwaggerOperation("DeletePledge")]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.NoContent)]
         public async Task<IActionResult> Delete(string id)
         {
@@ -180,12 +184,41 @@ namespace Lykke.Service.Pledges.Controllers
 
             if (pledge == null)
             {
-                return BadRequest(Phrases.InvalidPledgeId);
+                return NotFound(Phrases.PledgeNotFound);
             }
 
             await _pledgesService.Delete(id);
 
             return NoContent();
+        }
+
+        /// <summary>
+        /// Get pledge statistics.
+        /// </summary>
+        /// <param name="id">Id of the pledge we wanna get statistics for.</param>
+        /// <returns></returns>
+        [HttpGet("statistics/{id}")]
+        [SwaggerOperation("GetPledgeStatistics")]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(GetPledgeStatisticsResponse), (int)HttpStatusCode.NoContent)]
+        public async Task<IActionResult> GetPledgeStatistics(string id)
+        {
+            if (String.IsNullOrEmpty(id))
+            {
+                return BadRequest(Phrases.InvalidRequest);
+            }
+
+            var pledge = await _pledgesService.Get(id);
+
+            if (pledge == null)
+            {
+                return NotFound(Phrases.PledgeNotFound);
+            }
+
+            var pledgeStatistics = Mapper.Map<GetPledgeStatisticsResponse>(await _pledgesService.GetPledgeStatistics(id));
+
+            return Ok(pledgeStatistics);
         }
     }
 }
