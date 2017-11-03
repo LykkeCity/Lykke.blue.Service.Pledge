@@ -126,4 +126,13 @@
   <data name="InvalidRequest" xml:space="preserve">
     <value>Request cannot be empty.</value>
   </data>
+  <data name="PledgeNotFound" xml:space="preserve">
+    <value>Could not find pledge for provided Id.</value>
+  </data>
+  <data name="PledgeNotFoundByClientId" xml:space="preserve">
+    <value>Could not find pledge for provided client Id.</value>
+  </data>
+  <data name="PledgesLimitReached" xml:space="preserve">
+    <value>Client has existing pledge.Cannot create new one.</value>
+  </data>
 </root>

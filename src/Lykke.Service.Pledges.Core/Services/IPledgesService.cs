@@ -10,8 +10,9 @@ namespace Lykke.Service.Pledges.Core.Services
     {
         Task<IPledge> Create(IPledge pledge);
         Task<IPledge> Get(string id);
-        Task<IEnumerable<IPledge>> GetPledgesByClientId(string id);
+        Task<IPledge> GetPledgeByClientId(string clientId);
         Task<IPledge> Update(IPledge pledge);
         Task Delete(string id);
+        Task<bool> IsPledgesLimitReached(string clientId);
     }
 }

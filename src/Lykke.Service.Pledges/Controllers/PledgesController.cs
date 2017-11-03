@@ -56,6 +56,13 @@ namespace Lykke.Service.Pledges.Controllers
                 return BadRequest(Phrases.InvalidClientId);
             }
 
+            var pledgesLimitReached = await _pledgesService.IsPledgesLimitReached(request.ClientId);
+
+            if(pledgesLimitReached)
+            {
+                return BadRequest(Phrases.PledgesLimitReached);
+            }
+
             var pledge = Mapper.Map<CreatePledgeResponse>(await _pledgesService.Create(request));
 
             return Created(uri: $"api/pledges/{pledge.Id}", value: pledge);
@@ -81,7 +88,7 @@ namespace Lykke.Service.Pledges.Controllers
 
             if(pledge == null)
             {
-                return BadRequest(Phrases.InvalidPledgeId);
+                return NotFound(Phrases.PledgeNotFound);
             }
 
             var result = Mapper.Map<GetPledgeResponse>(pledge);
@@ -90,24 +97,29 @@ namespace Lykke.Service.Pledges.Controllers
         }
 
         /// <summary>
-        /// Get pledges for provided client. 
+        /// Get pledge for provided client. 
         /// </summary>
-        /// <param name="id">Id of the client we wanna get pledges for.</param>
+        /// <param name="id">Id of the client we wanna get pledge for.</param>
         /// <returns></returns>
         [HttpGet("client/{id}")]
-        [SwaggerOperation("GetPledgesByClientId")]
+        [SwaggerOperation("GetPledgeByClientId")]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(IEnumerable<GetPledgeResponse>), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> GetPledgesByClientId(string id)
+        [ProducesResponseType(typeof(GetPledgeResponse), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetPledgeByClientId(string id)
         {
             if(String.IsNullOrEmpty(id))
             {
                 return BadRequest(Phrases.InvalidRequest);
             }
 
-            var pledges = await _pledgesService.GetPledgesByClientId(id);
+            var pledge = await _pledgesService.GetPledgeByClientId(id);
 
-            var result = Mapper.Map<IEnumerable<GetPledgeResponse>>(pledges);
+            if(pledge == null)
+            {
+                return NotFound(Phrases.PledgeNotFoundByClientId);
+            }
+
+            var result = Mapper.Map<GetPledgeResponse>(pledge);
 
             return Ok(result);
         }
@@ -134,7 +146,14 @@ namespace Lykke.Service.Pledges.Controllers
                 return BadRequest(Phrases.InvalidClientId);
             }
 
-            var pledge = await _pledgesService.Update(Mapper.Map<IPledge>(request));
+            var pledge = await _pledgesService.Get(request.Id);
+
+            if (pledge == null)
+            {
+                return NotFound(Phrases.PledgeNotFound);
+            }
+
+            pledge = await _pledgesService.Update(Mapper.Map<IPledge>(request));
 
             var result = Mapper.Map<UpdatePledgeResponse>(pledge);
 

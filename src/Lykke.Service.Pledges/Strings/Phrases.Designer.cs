@@ -86,5 +86,32 @@ namespace Lykke.Service.Pledges.Strings {
                 return ResourceManager.GetString("InvalidRequest", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not find pledge for provided Id..
+        /// </summary>
+        public static string PledgeNotFound {
+            get {
+                return ResourceManager.GetString("PledgeNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not find pledge for provided client Id..
+        /// </summary>
+        public static string PledgeNotFoundByClientId {
+            get {
+                return ResourceManager.GetString("PledgeNotFoundByClientId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Client has existing pledge.Cannot create new one..
+        /// </summary>
+        public static string PledgesLimitReached {
+            get {
+                return ResourceManager.GetString("PledgesLimitReached", resourceCulture);
+            }
+        }
     }
 }

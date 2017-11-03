@@ -5,6 +5,7 @@ using Lykke.Service.Pledges.AzureRepositories.Entities;
 using Lykke.Service.Pledges.Core.Domain;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -53,11 +54,18 @@ namespace Lykke.Service.Pledges.AzureRepositories.Repositories
             return Mapper.Map<PledgeDto>(entity);
         }
 
-        public async Task<IEnumerable<IPledge>> GetPledgesByClientId(string clientId)
+        public async Task<IPledge> GetPledgeByClientId(string clientId)
         {
-            var entities = await _pledgeTable.GetDataAsync(GetPartitionKey(), x => x.ClientId == clientId);
+            var entities = (await _pledgeTable.GetDataAsync(GetPartitionKey(), x => x.ClientId == clientId)).FirstOrDefault();
 
-            return Mapper.Map<IEnumerable<PledgeDto>>(entities);
+            return Mapper.Map<PledgeDto>(entities);
+        }
+
+        public async Task<bool> IsPledgesLimitReached(string clientId)
+        {
+            var numberOfClientPledges = (await _pledgeTable.GetDataAsync(GetPartitionKey(), x => x.ClientId == clientId)).Count();
+
+            return numberOfClientPledges > 1;
         }
 
         public async Task<IPledge> UpdatePledge(IPledge pledge)

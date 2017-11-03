@@ -31,9 +31,14 @@ namespace Lykke.Service.Pledges.Services
             return await _pledgeRepository.Get(id);
         }
 
-        public async Task<IEnumerable<IPledge>> GetPledgesByClientId(string id)
+        public async Task<IPledge> GetPledgeByClientId(string clientId)
         {
-            return await _pledgeRepository.GetPledgesByClientId(id);
+            return await _pledgeRepository.GetPledgeByClientId(clientId);
+        }
+
+        public async Task<bool> IsPledgesLimitReached(string clientId)
+        {
+            return await _pledgeRepository.IsPledgesLimitReached(clientId);
         }
 
         public async Task<IPledge> Update(IPledge pledge)
