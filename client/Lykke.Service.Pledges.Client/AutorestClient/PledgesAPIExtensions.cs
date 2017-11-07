@@ -52,9 +52,9 @@ namespace Lykke.Service.Pledges.Client.AutorestClient
             /// <param name='request'>
             /// Pledge values we wanna change.
             /// </param>
-            public static UpdatePledgeResponse UpdatePledge(this IPledgesAPI operations, UpdatePledgeRequest request = default(UpdatePledgeRequest))
+            public static void UpdatePledge(this IPledgesAPI operations, UpdatePledgeRequest request = default(UpdatePledgeRequest))
             {
-                return operations.UpdatePledgeAsync(request).GetAwaiter().GetResult();
+                operations.UpdatePledgeAsync(request).GetAwaiter().GetResult();
             }
 
             /// <summary>
@@ -69,12 +69,9 @@ namespace Lykke.Service.Pledges.Client.AutorestClient
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<UpdatePledgeResponse> UpdatePledgeAsync(this IPledgesAPI operations, UpdatePledgeRequest request = default(UpdatePledgeRequest), CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task UpdatePledgeAsync(this IPledgesAPI operations, UpdatePledgeRequest request = default(UpdatePledgeRequest), CancellationToken cancellationToken = default(CancellationToken))
             {
-                using (var _result = await operations.UpdatePledgeWithHttpMessagesAsync(request, null, cancellationToken).ConfigureAwait(false))
-                {
-                    return _result.Body;
-                }
+                (await operations.UpdatePledgeWithHttpMessagesAsync(request, null, cancellationToken).ConfigureAwait(false)).Dispose();
             }
 
             /// <summary>
@@ -85,9 +82,9 @@ namespace Lykke.Service.Pledges.Client.AutorestClient
             /// </param>
             /// <param name='request'>
             /// </param>
-            public static CreatePledgeResponse CreatePledge(this IPledgesAPI operations, CreatePledgeRequest request = default(CreatePledgeRequest))
+            public static void CreatePledge(this IPledgesAPI operations, CreatePledgeRequest request = default(CreatePledgeRequest))
             {
-                return operations.CreatePledgeAsync(request).GetAwaiter().GetResult();
+                operations.CreatePledgeAsync(request).GetAwaiter().GetResult();
             }
 
             /// <summary>
@@ -101,43 +98,40 @@ namespace Lykke.Service.Pledges.Client.AutorestClient
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<CreatePledgeResponse> CreatePledgeAsync(this IPledgesAPI operations, CreatePledgeRequest request = default(CreatePledgeRequest), CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task CreatePledgeAsync(this IPledgesAPI operations, CreatePledgeRequest request = default(CreatePledgeRequest), CancellationToken cancellationToken = default(CancellationToken))
             {
-                using (var _result = await operations.CreatePledgeWithHttpMessagesAsync(request, null, cancellationToken).ConfigureAwait(false))
-                {
-                    return _result.Body;
-                }
+                (await operations.CreatePledgeWithHttpMessagesAsync(request, null, cancellationToken).ConfigureAwait(false)).Dispose();
             }
 
             /// <summary>
-            /// Get pledge.
+            /// Get pledge for provided client.
             /// </summary>
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
-            /// <param name='id'>
-            /// Id of the pledge we wanna find.
+            /// <param name='clientId'>
+            /// Id of the client we wanna get pledge for.
             /// </param>
-            public static GetPledgeResponse GetPledge(this IPledgesAPI operations, string id)
+            public static GetPledgeResponse GetPledge(this IPledgesAPI operations, string clientId)
             {
-                return operations.GetPledgeAsync(id).GetAwaiter().GetResult();
+                return operations.GetPledgeAsync(clientId).GetAwaiter().GetResult();
             }
 
             /// <summary>
-            /// Get pledge.
+            /// Get pledge for provided client.
             /// </summary>
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
-            /// <param name='id'>
-            /// Id of the pledge we wanna find.
+            /// <param name='clientId'>
+            /// Id of the client we wanna get pledge for.
             /// </param>
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task<GetPledgeResponse> GetPledgeAsync(this IPledgesAPI operations, string id, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task<GetPledgeResponse> GetPledgeAsync(this IPledgesAPI operations, string clientId, CancellationToken cancellationToken = default(CancellationToken))
             {
-                using (var _result = await operations.GetPledgeWithHttpMessagesAsync(id, null, cancellationToken).ConfigureAwait(false))
+                using (var _result = await operations.GetPledgeWithHttpMessagesAsync(clientId, null, cancellationToken).ConfigureAwait(false))
                 {
                     return _result.Body;
                 }
@@ -149,12 +143,12 @@ namespace Lykke.Service.Pledges.Client.AutorestClient
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
-            /// <param name='id'>
+            /// <param name='clientId'>
             /// Id of the pledge we wanna delete.
             /// </param>
-            public static void DeletePledge(this IPledgesAPI operations, string id)
+            public static void DeletePledge(this IPledgesAPI operations, string clientId)
             {
-                operations.DeletePledgeAsync(id).GetAwaiter().GetResult();
+                operations.DeletePledgeAsync(clientId).GetAwaiter().GetResult();
             }
 
             /// <summary>
@@ -163,49 +157,15 @@ namespace Lykke.Service.Pledges.Client.AutorestClient
             /// <param name='operations'>
             /// The operations group for this extension method.
             /// </param>
-            /// <param name='id'>
+            /// <param name='clientId'>
             /// Id of the pledge we wanna delete.
             /// </param>
             /// <param name='cancellationToken'>
             /// The cancellation token.
             /// </param>
-            public static async Task DeletePledgeAsync(this IPledgesAPI operations, string id, CancellationToken cancellationToken = default(CancellationToken))
+            public static async Task DeletePledgeAsync(this IPledgesAPI operations, string clientId, CancellationToken cancellationToken = default(CancellationToken))
             {
-                (await operations.DeletePledgeWithHttpMessagesAsync(id, null, cancellationToken).ConfigureAwait(false)).Dispose();
-            }
-
-            /// <summary>
-            /// Get pledge for provided client.
-            /// </summary>
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='id'>
-            /// Id of the client we wanna get pledge for.
-            /// </param>
-            public static GetPledgeResponse GetPledgeByClientId(this IPledgesAPI operations, string id)
-            {
-                return operations.GetPledgeByClientIdAsync(id).GetAwaiter().GetResult();
-            }
-
-            /// <summary>
-            /// Get pledge for provided client.
-            /// </summary>
-            /// <param name='operations'>
-            /// The operations group for this extension method.
-            /// </param>
-            /// <param name='id'>
-            /// Id of the client we wanna get pledge for.
-            /// </param>
-            /// <param name='cancellationToken'>
-            /// The cancellation token.
-            /// </param>
-            public static async Task<GetPledgeResponse> GetPledgeByClientIdAsync(this IPledgesAPI operations, string id, CancellationToken cancellationToken = default(CancellationToken))
-            {
-                using (var _result = await operations.GetPledgeByClientIdWithHttpMessagesAsync(id, null, cancellationToken).ConfigureAwait(false))
-                {
-                    return _result.Body;
-                }
+                (await operations.DeletePledgeWithHttpMessagesAsync(clientId, null, cancellationToken).ConfigureAwait(false)).Dispose();
             }
 
     }

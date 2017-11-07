@@ -57,7 +57,7 @@ namespace Lykke.Service.Pledges.Client.AutorestClient
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<UpdatePledgeResponse>> UpdatePledgeWithHttpMessagesAsync(UpdatePledgeRequest request = default(UpdatePledgeRequest), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse> UpdatePledgeWithHttpMessagesAsync(UpdatePledgeRequest request = default(UpdatePledgeRequest), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Create a new pledge.
@@ -70,40 +70,12 @@ namespace Lykke.Service.Pledges.Client.AutorestClient
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<CreatePledgeResponse>> CreatePledgeWithHttpMessagesAsync(CreatePledgeRequest request = default(CreatePledgeRequest), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
-
-        /// <summary>
-        /// Get pledge.
-        /// </summary>
-        /// <param name='id'>
-        /// Id of the pledge we wanna find.
-        /// </param>
-        /// <param name='customHeaders'>
-        /// The headers that will be added to request.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// The cancellation token.
-        /// </param>
-        Task<HttpOperationResponse<GetPledgeResponse>> GetPledgeWithHttpMessagesAsync(string id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
-
-        /// <summary>
-        /// Delete pledge
-        /// </summary>
-        /// <param name='id'>
-        /// Id of the pledge we wanna delete.
-        /// </param>
-        /// <param name='customHeaders'>
-        /// The headers that will be added to request.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// The cancellation token.
-        /// </param>
-        Task<HttpOperationResponse> DeletePledgeWithHttpMessagesAsync(string id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse> CreatePledgeWithHttpMessagesAsync(CreatePledgeRequest request = default(CreatePledgeRequest), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Get pledge for provided client.
         /// </summary>
-        /// <param name='id'>
+        /// <param name='clientId'>
         /// Id of the client we wanna get pledge for.
         /// </param>
         /// <param name='customHeaders'>
@@ -112,7 +84,21 @@ namespace Lykke.Service.Pledges.Client.AutorestClient
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<GetPledgeResponse>> GetPledgeByClientIdWithHttpMessagesAsync(string id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<GetPledgeResponse>> GetPledgeWithHttpMessagesAsync(string clientId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Delete pledge
+        /// </summary>
+        /// <param name='clientId'>
+        /// Id of the pledge we wanna delete.
+        /// </param>
+        /// <param name='customHeaders'>
+        /// The headers that will be added to request.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        Task<HttpOperationResponse> DeletePledgeWithHttpMessagesAsync(string clientId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
     }
 }
