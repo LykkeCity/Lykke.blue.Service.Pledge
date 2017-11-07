@@ -1,6 +1,4 @@
-﻿using Lykke.Service.Pledges.Core.Domain;
-
-namespace Lykke.Service.Pledges.Responses
+﻿namespace Lykke.Service.Pledges.Responses
 {
     public class CreatePledgeResponse
     {

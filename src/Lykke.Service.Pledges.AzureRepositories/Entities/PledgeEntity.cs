@@ -1,8 +1,5 @@
-﻿using Lykke.Service.Pledges.Core.Domain;
-using Microsoft.WindowsAzure.Storage.Table;
-using System;
+﻿using Microsoft.WindowsAzure.Storage.Table;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Lykke.Service.Pledges.AzureRepositories.Entities
 {

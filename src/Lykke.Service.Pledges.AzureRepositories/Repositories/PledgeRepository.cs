@@ -4,9 +4,7 @@ using Lykke.Service.Pledges.AzureRepositories.DTOs;
 using Lykke.Service.Pledges.AzureRepositories.Entities;
 using Lykke.Service.Pledges.Core.Domain;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Lykke.Service.Pledges.AzureRepositories.Repositories
@@ -30,7 +28,7 @@ namespace Lykke.Service.Pledges.AzureRepositories.Repositories
             return id;
         }
 
-        public async Task<IPledge> Create(IPledge pledge)
+        public async Task<string> Create(IPledge pledge)
         {
             var entity = Mapper.Map<PledgeEntity>(pledge);
 
@@ -39,7 +37,7 @@ namespace Lykke.Service.Pledges.AzureRepositories.Repositories
 
             await _pledgeTable.InsertAsync(entity);
 
-            return Mapper.Map<PledgeDto>(entity);
+            return entity.ClientId;
         }
 
         public async Task Delete(string id)
@@ -65,10 +63,10 @@ namespace Lykke.Service.Pledges.AzureRepositories.Repositories
         {
             var numberOfClientPledges = (await _pledgeTable.GetDataAsync(GetPartitionKey(), x => x.ClientId == clientId)).Count();
 
-            return numberOfClientPledges > 1;
+            return numberOfClientPledges >= 1;
         }
 
-        public async Task<IPledge> UpdatePledge(IPledge pledge)
+        public async Task UpdatePledge(IPledge pledge)
         {
             var result = await _pledgeTable.MergeAsync(GetPartitionKey(), GetRowKey(pledge.Id), x =>
             {
@@ -76,8 +74,6 @@ namespace Lykke.Service.Pledges.AzureRepositories.Repositories
 
                 return x;
             });
-
-            return Mapper.Map<PledgeDto>(result);
         }
     }
 }

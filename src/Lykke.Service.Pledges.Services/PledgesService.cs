@@ -1,7 +1,4 @@
 ﻿using Lykke.Service.Pledges.Core.Services;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Lykke.Service.Pledges.Core.Domain;
 using System.Threading.Tasks;
 
@@ -16,9 +13,9 @@ namespace Lykke.Service.Pledges.Services
             _pledgeRepository = pledgeRepository;
         }
 
-        public async Task<IPledge> Create(IPledge pledge)
+        public async Task Create(IPledge pledge)
         {
-            return await _pledgeRepository.Create(pledge);
+            await _pledgeRepository.Create(pledge);
         }
 
         public async Task Delete(string id)
@@ -41,9 +38,9 @@ namespace Lykke.Service.Pledges.Services
             return await _pledgeRepository.IsPledgesLimitReached(clientId);
         }
 
-        public async Task<IPledge> Update(IPledge pledge)
+        public async Task Update(IPledge pledge)
         {
-            return await _pledgeRepository.UpdatePledge(pledge);
+            await _pledgeRepository.UpdatePledge(pledge);
         }
     }
 }

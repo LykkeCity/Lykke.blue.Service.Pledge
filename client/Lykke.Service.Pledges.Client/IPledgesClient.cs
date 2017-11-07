@@ -1,7 +1,5 @@
 ﻿
 using Lykke.Service.Pledges.Client.AutorestClient.Models;
-using System.Collections;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Lykke.Service.Pledges.Client

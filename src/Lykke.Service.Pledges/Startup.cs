@@ -17,8 +17,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using AutoMapper;
-using Lykke.Service.Pledges.AzureRepositories;
-using Lykke.Service.Pledges.Services;
 
 namespace Lykke.Service.Pledges
 {

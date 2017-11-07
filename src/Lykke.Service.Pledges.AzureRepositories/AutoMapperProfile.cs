@@ -3,9 +3,6 @@ using Lykke.Service.Pledges.AzureRepositories.DTOs;
 using Lykke.Service.Pledges.AzureRepositories.Entities;
 using Lykke.Service.Pledges.Core.Domain;
 using Microsoft.WindowsAzure.Storage.Table;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Lykke.Service.Pledges.AzureRepositories
 {
