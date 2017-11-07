@@ -10,6 +10,7 @@ using Lykke.Service.Pledges.Services;
 using Lykke.SettingsReader;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using Lykke.Service.ClientAccount.Client.AutorestClient;
 
 namespace Lykke.Service.Pledges.Modules
 {

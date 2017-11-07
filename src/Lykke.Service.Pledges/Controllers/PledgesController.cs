@@ -51,7 +51,7 @@ namespace Lykke.Service.Pledges.Controllers
                 return BadRequest(Phrases.InvalidRequest);
             }
 
-            if(String.IsNullOrEmpty(request.ClientId) || await _clientAccountClient.GetClientById(request.ClientId) == null)
+            if(String.IsNullOrEmpty(request.ClientId) || await _clientAccountClient.GetClientByIdAsync(request.ClientId) == null)
             {
                 return BadRequest(Phrases.InvalidClientId);
             }
@@ -144,7 +144,7 @@ namespace Lykke.Service.Pledges.Controllers
                 return BadRequest(Phrases.InvalidRequest);
             }
 
-            if (String.IsNullOrEmpty(request.Id) || await _clientAccountClient.GetClientById(request.ClientId) == null)
+            if (String.IsNullOrEmpty(request.Id) || await _clientAccountClient.GetClientByIdAsync(request.ClientId) == null)
             {
                 return BadRequest(Phrases.InvalidClientId);
             }
