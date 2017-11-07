@@ -6,10 +6,9 @@ namespace Lykke.Service.Pledges.Client
 {
     public interface IPledgesClient
     {
-        Task<CreatePledgeResponse> Create(CreatePledgeRequest request);
-        Task<GetPledgeResponse> Get(string id);
-        Task<GetPledgeResponse> GetPledgeByClientId(string id);
-        Task<UpdatePledgeResponse> Update(UpdatePledgeRequest request);
+        Task Create(CreatePledgeRequest request);
+        Task<GetPledgeResponse> Get(string clientId);
+        Task Update(UpdatePledgeRequest request);
         Task Delete(string id);
     }
 }

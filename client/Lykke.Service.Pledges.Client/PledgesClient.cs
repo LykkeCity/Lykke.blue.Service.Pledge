@@ -25,11 +25,11 @@ namespace Lykke.Service.Pledges.Client
             _service = null;
         }
 
-        public async Task<CreatePledgeResponse> Create(CreatePledgeRequest request)
+        public async Task Create(CreatePledgeRequest request)
         {
             try
             {
-                return await _service.CreatePledgeAsync(request);
+                await _service.CreatePledgeAsync(request);
             }
             catch (Exception ex)
             {
@@ -51,11 +51,11 @@ namespace Lykke.Service.Pledges.Client
             }
         }        
 
-        public async Task<GetPledgeResponse> Get(string id)
+        public async Task<GetPledgeResponse> Get(string clientId)
         {
             try
             {
-                return await _service.GetPledgeAsync(id);
+                return await _service.GetPledgeAsync(clientId);
             }
             catch (Exception ex)
             {
@@ -64,24 +64,11 @@ namespace Lykke.Service.Pledges.Client
             }
         }
 
-        public async Task<GetPledgeResponse> GetPledgeByClientId(string id)
+        public async Task Update(UpdatePledgeRequest request)
         {
             try
             {
-                return await _service.GetPledgeByClientIdAsync(id);
-            }
-            catch (Exception ex)
-            {
-                await _log.WriteErrorAsync(nameof(PledgesClient), nameof(GetPledgeByClientId), ex);
-                throw;
-            }
-        }
-
-        public async Task<UpdatePledgeResponse> Update(UpdatePledgeRequest request)
-        {
-            try
-            {
-                return await _service.UpdatePledgeAsync(request);
+                await _service.UpdatePledgeAsync(request);
             }
             catch (Exception ex)
             {
