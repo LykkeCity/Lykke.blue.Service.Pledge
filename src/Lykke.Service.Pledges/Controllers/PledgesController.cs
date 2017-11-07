@@ -106,7 +106,7 @@ namespace Lykke.Service.Pledges.Controllers
         [SwaggerOperation("UpdatePledge")]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(UpdatePledgeResponse), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
         public async Task<IActionResult> Update([FromBody] UpdatePledgeRequest request)
         {
             if (request == null)
@@ -130,7 +130,7 @@ namespace Lykke.Service.Pledges.Controllers
 
             await _pledgesService.Update(Mapper.Map<IPledge>(request));
 
-            return Ok();
+            return NoContent();
         }
 
         /// <summary>
@@ -142,7 +142,7 @@ namespace Lykke.Service.Pledges.Controllers
         [SwaggerOperation("DeletePledge")]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(void), (int)HttpStatusCode.NoContent)]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
         public async Task<IActionResult> Delete(string clientId)
         {
             if(String.IsNullOrEmpty(clientId))
