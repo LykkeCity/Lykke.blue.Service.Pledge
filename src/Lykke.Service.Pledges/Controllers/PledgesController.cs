@@ -22,7 +22,6 @@ namespace Lykke.Service.Pledges.Controllers
     {
         private readonly ILog _log;
         private readonly IClientAccountClient _clientAccountClient;
-        private readonly IShutdownManager _shutdownManager;
         private readonly IPledgesService _pledgesService;
 
         public PledgesController(
@@ -43,7 +42,7 @@ namespace Lykke.Service.Pledges.Controllers
         [HttpPost]
         [SwaggerOperation("CreatePledge")]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(CreatePledgeResponse), (int)HttpStatusCode.Created)]
+        [ProducesResponseType(typeof(void), (int)HttpStatusCode.Created)]
         public async Task<IActionResult> Create([FromBody] CreatePledgeRequest request)
         {
             if(request == null)
@@ -63,58 +62,29 @@ namespace Lykke.Service.Pledges.Controllers
                 return BadRequest(Phrases.PledgesLimitReached);
             }
 
-            var pledge = Mapper.Map<CreatePledgeResponse>(await _pledgesService.Create(request));
+            await _pledgesService.Create(request);
 
-            return Created(uri: $"api/pledges/{pledge.Id}", value: pledge);
-        }
-
-        /// <summary>
-        /// Get pledge.
-        /// </summary>
-        /// <param name="id">Id of the pledge we wanna find.</param>
-        /// <returns></returns>
-        [HttpGet("{id}")]
-        [SwaggerOperation("GetPledge")]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(GetPledgeResponse), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> Get(string id)
-        {
-            if(String.IsNullOrEmpty(id))
-            {
-                return BadRequest(Phrases.InvalidRequest);
-            }
-
-            var pledge = await _pledgesService.Get(id);
-
-            if(pledge == null)
-            {
-                return NotFound(Phrases.PledgeNotFound);
-            }
-
-            var result = Mapper.Map<GetPledgeResponse>(pledge);
-
-            return Ok(result);
+            return Created(uri: $"api/pledges/{request.ClientId}", value: string.Empty);
         }
 
         /// <summary>
         /// Get pledge for provided client. 
         /// </summary>
-        /// <param name="id">Id of the client we wanna get pledge for.</param>
+        /// <param name="clientId">Id of the client we wanna get pledge for.</param>
         /// <returns></returns>
-        [HttpGet("client/{id}")]
-        [SwaggerOperation("GetPledgeByClientId")]
+        [HttpGet("{clientId}")]
+        [SwaggerOperation("GetPledge")]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(GetPledgeResponse), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> GetPledgeByClientId(string id)
+        public async Task<IActionResult> Get(string clientId)
         {
-            if(String.IsNullOrEmpty(id))
+            if(String.IsNullOrEmpty(clientId))
             {
                 return BadRequest(Phrases.InvalidRequest);
             }
 
-            var pledge = await _pledgesService.GetPledgeByClientId(id);
+            var pledge = await _pledgesService.GetPledgeByClientId(clientId);
 
             if(pledge == null)
             {
@@ -144,50 +114,50 @@ namespace Lykke.Service.Pledges.Controllers
                 return BadRequest(Phrases.InvalidRequest);
             }
 
-            if (String.IsNullOrEmpty(request.Id) || await _clientAccountClient.GetClientByIdAsync(request.ClientId) == null)
+            if (String.IsNullOrEmpty(request.ClientId) || await _clientAccountClient.GetClientByIdAsync(request.ClientId) == null)
             {
                 return BadRequest(Phrases.InvalidClientId);
             }
 
-            var pledge = await _pledgesService.Get(request.Id);
+            var pledge = await _pledgesService.GetPledgeByClientId(request.ClientId);
 
             if (pledge == null)
             {
                 return NotFound(Phrases.PledgeNotFound);
             }
 
-            pledge = await _pledgesService.Update(Mapper.Map<IPledge>(request));
+            request.Id = pledge.Id;
 
-            var result = Mapper.Map<UpdatePledgeResponse>(pledge);
+            await _pledgesService.Update(Mapper.Map<IPledge>(request));
 
-            return Ok(result);
+            return Ok();
         }
 
         /// <summary>
         /// Delete pledge
         /// </summary>
-        /// <param name="id">Id of the pledge we wanna delete.</param>
+        /// <param name="clientId">Id of the pledge we wanna delete.</param>
         /// <returns></returns>
-        [HttpDelete("{id}")]
+        [HttpDelete("{clientId}")]
         [SwaggerOperation("DeletePledge")]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.NoContent)]
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(string clientId)
         {
-            if(String.IsNullOrEmpty(id))
+            if(String.IsNullOrEmpty(clientId))
             {
                 return BadRequest(Phrases.InvalidRequest);
             }
 
-            var pledge = await _pledgesService.Get(id);
+            var pledge = await _pledgesService.GetPledgeByClientId(clientId);
 
             if (pledge == null)
             {
                 return NotFound(Phrases.PledgeNotFound);
             }
 
-            await _pledgesService.Delete(id);
+            await _pledgesService.Delete(pledge.Id);
 
             return NoContent();
         }
