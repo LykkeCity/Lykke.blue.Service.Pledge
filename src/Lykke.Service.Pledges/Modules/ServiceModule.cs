@@ -10,6 +10,7 @@ using Lykke.Service.Pledges.Services;
 using Lykke.SettingsReader;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using ClientAccountService = Lykke.Service.ClientAccount.Client.ClientAccountService;
 
 namespace Lykke.Service.Pledges.Modules
 {
@@ -56,11 +57,11 @@ namespace Lykke.Service.Pledges.Modules
 
             builder.RegisterType<ClientAccountService>()
                 .As<IClientAccountService>()
-                .WithParameter("baseUri", new Uri(_settings.CurrentValue.Services.ClientAccountServiceUrl));
+                .WithParameter("baseUri", new Uri(_settings.CurrentValue.ClientAccountClient.ServiceUrl));
 
             builder.RegisterType<ClientAccountClient>()
                 .As<IClientAccountClient>()
-                .WithParameter("serviceUrl", _settings.CurrentValue.Services.ClientAccountServiceUrl)
+                .WithParameter("serviceUrl", _settings.CurrentValue.ClientAccountClient.ServiceUrl)
                 .WithParameter("log", _log);
 
             builder.RegisterType<PledgesService>()
