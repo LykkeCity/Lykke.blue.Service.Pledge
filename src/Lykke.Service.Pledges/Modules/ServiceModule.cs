@@ -1,7 +1,6 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Common.Log;
-using Lykke.Service.ClientAccount.Client;
 using Lykke.Service.Pledges.AzureRepositories;
 using Lykke.Service.Pledges.Core.Domain;
 using Lykke.Service.Pledges.Core.Services;
@@ -10,7 +9,6 @@ using Lykke.Service.Pledges.Services;
 using Lykke.SettingsReader;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using ClientAccountService = Lykke.Service.ClientAccount.Client.ClientAccountService;
 
 namespace Lykke.Service.Pledges.Modules
 {
@@ -54,15 +52,6 @@ namespace Lykke.Service.Pledges.Modules
             builder.RegisterInstance<IPledgeRepository>(
                     AzureRepoFactories.CreatePledgeRepository(_settings.Nested(x => x.Db.PledgesConnString), _log))
                 .SingleInstance();
-
-            builder.RegisterType<ClientAccountService>()
-                .As<IClientAccountService>()
-                .WithParameter("baseUri", new Uri(_settings.CurrentValue.ClientAccountClient.ServiceUrl));
-
-            builder.RegisterType<ClientAccountClient>()
-                .As<IClientAccountClient>()
-                .WithParameter("serviceUrl", _settings.CurrentValue.ClientAccountClient.ServiceUrl)
-                .WithParameter("log", _log);
 
             builder.RegisterType<PledgesService>()
                 .As<IPledgesService>()

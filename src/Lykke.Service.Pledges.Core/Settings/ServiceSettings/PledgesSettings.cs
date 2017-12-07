@@ -3,6 +3,5 @@
     public class PledgesSettings
     {
         public DbSettings Db { get; set; }
-        public ClientAccountService ClientAccountClient { get; set; }
     }
 }
