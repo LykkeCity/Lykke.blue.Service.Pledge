@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Common.Log;
-using Lykke.Service.ClientAccount.Client;
 using Lykke.Service.Pledges.Core.Domain;
 using Lykke.Service.Pledges.Core.Services;
 using Lykke.Service.Pledges.Requests;
@@ -18,16 +17,13 @@ namespace Lykke.Service.Pledges.Controllers
     public class PledgesController : Controller
     {
         private readonly ILog _log;
-        private readonly IClientAccountClient _clientAccountClient;
         private readonly IPledgesService _pledgesService;
 
         public PledgesController(
             ILog log,
-            IClientAccountClient clientAccountClient,
             IPledgesService pledgesService)
         {
             _log = log ?? throw new ArgumentException(nameof(log));
-            _clientAccountClient = clientAccountClient ?? throw new ArgumentException(nameof(clientAccountClient));
             _pledgesService = pledgesService ?? throw new ArgumentException(nameof(pledgesService));
         }
 
@@ -47,7 +43,7 @@ namespace Lykke.Service.Pledges.Controllers
                 return BadRequest(Phrases.InvalidRequest);
             }
 
-            if (String.IsNullOrEmpty(request.ClientId) || await _clientAccountClient.GetClientById(request.ClientId) == null)
+            if (String.IsNullOrEmpty(request.ClientId))
             {
                 return BadRequest(Phrases.InvalidClientId);
             }
@@ -111,7 +107,7 @@ namespace Lykke.Service.Pledges.Controllers
                 return BadRequest(Phrases.InvalidRequest);
             }
 
-            if (String.IsNullOrEmpty(request.ClientId) || await _clientAccountClient.GetClientById(request.ClientId) == null)
+            if (String.IsNullOrEmpty(request.ClientId))
             {
                 return BadRequest(Phrases.InvalidClientId);
             }
